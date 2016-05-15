@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     BitSet \
-    test
+    test \
+    clu

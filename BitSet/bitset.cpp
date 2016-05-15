@@ -13,7 +13,7 @@ void BitSet::createOfList(QList<bool>& set)
         if (b)
             block |= 1 << blockLength;
         ++blockLength;
-        if (blockLength == 32) {
+        if (blockLength == BLOCK_SIZE) {
             bitLength += blockLength;
             intSet += block;
             blockLength = 0;
@@ -71,7 +71,7 @@ int BitSet::length() const
 void BitSet::add(const bool bit)
 {
     quint32 block;
-    int blockLength = this->bitLength % 32;
+    int blockLength = this->bitLength % BLOCK_SIZE;
     if (blockLength == 0) {
         block = 0;
         this->set.push_back(block);
@@ -96,8 +96,8 @@ void BitSet::put(bool bit, int index)
         throw BitSet::OutOfRangeException();
     }
 
-    int blockIndex = index / 32;
-    int bitIndex = index % 32;
+    int blockIndex = index / BLOCK_SIZE;
+    int bitIndex = index % BLOCK_SIZE;
 
     quint32 block = this->set[blockIndex];
     if (bit)
@@ -114,8 +114,8 @@ const bool BitSet::get(int index) const
         throw BitSet::OutOfRangeException();
     }
 
-    int blockIndex = index / 32;
-    int bitIndex = index % 32;
+    int blockIndex = index / BLOCK_SIZE;
+    int bitIndex = index % BLOCK_SIZE;
     quint32 block = this->set[blockIndex];
     return !!(block & (1 << bitIndex));
 }
@@ -127,11 +127,11 @@ bool BitSet::pop()
     }
 
     int lastBlockIndex;
-    int lastBlockLength = this->bitLength % 32;
+    int lastBlockLength = this->bitLength % BLOCK_SIZE;
     if (lastBlockLength == 0) {
-        lastBlockIndex = this->bitLength / 32 - 1;
+        lastBlockIndex = this->bitLength / BLOCK_SIZE - 1;
     } else {
-        lastBlockIndex = this->bitLength / 32;
+        lastBlockIndex = this->bitLength / BLOCK_SIZE;
     }
 
     quint32 block = this->set[lastBlockIndex];
@@ -296,8 +296,8 @@ BitSet& BitSet::operator<<=(const int shift)
     for (int i = 0; i < shift; ++i) {
        this->add(false);
     }
-    for (int i = this->length() - shift - 1; i >= shift; --i) {
-        this->put((*this)[i - shift], i);
+    for (int i = this->length() - shift - 1; i >= 0; --i) {
+        this->put((*this)[i], i + shift);
     }
     for (int i = 0; i < shift; ++i) {
         this->put(false, i);
@@ -353,4 +353,13 @@ BitSet& BitSet::operator=(BitSet that)
 const bool BitSet::operator[](int i) const
 {
     return this->get(i);
+}
+
+QString BitSet::toString()
+{
+    QString result = "";
+    for (int i = 0; i < this->bitLength; ++i) {
+        result.append(this->get(i) ? '1' : '0');
+    }
+    return result;
 }

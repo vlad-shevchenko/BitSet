@@ -18,6 +18,8 @@ class BitSet
 
 public:
 
+    static const int BLOCK_SIZE = 32;
+
     /**
      * @brief BitSet Creates an empty bitset.
      */
