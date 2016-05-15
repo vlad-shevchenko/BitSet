@@ -229,6 +229,79 @@ private Q_SLOTS:
         QVERIFY_EXCEPTION_THROWN(BitSet("42"), BitSet::InvalidRepresentationException);
     }
 
+    void testCreateOfTwoBlocks()
+    {
+        BitSet bs("111111111111111111111111111111111111111111111111"); // 48
+        QVERIFY(bs.length() == 48);
+    }
+
+    void testAddOverBlockSize()
+    {
+        BitSet bs("11111111111111111111111111111111"); // 32
+        bs += true;
+        QVERIFY(bs.length() == 33);
+        QVERIFY(bs == BitSet("111111111111111111111111111111111")); // 33
+    }
+
+    void testOrOnTwoLongSets()
+    {
+        BitSet bs1("111111111111111111111111111111111111111111111111"), bs2("00000000000000000000000000000000"); //48 and 32
+        BitSet result = bs1 | bs2;
+        QVERIFY(result.length() == 48);
+        QVERIFY(result == BitSet("111111111111111111111111111111111111111111111111")); //48
+    }
+
+    void testLeftShiftOverBlockSize()
+    {
+        BitSet bs("11111111111111111111111111111111"); // 32
+        bs <<= 16;
+        QVERIFY(bs.length() == 48);
+        QVERIFY(bs == BitSet("000000000000000011111111111111111111111111111111")); // 32 + 16
+    }
+
+    void testRightShiftOverBlockSize()
+    {
+        BitSet bs("111111111111111111111111111111111111111111111111"); // 48
+        bs >>= 20;
+        QVERIFY(bs.length() == 28);
+        QVERIFY(bs == BitSet("1111111111111111111111111111")); // 28
+    }
+
+    void testNegateLongSet()
+    {
+        BitSet bs("111111111111111111111111111111111111111111111111"); // 48
+        bs = !bs;
+        QVERIFY(bs.length() == 48);
+        QVERIFY(bs == BitSet("000000000000000000000000000000000000000000000000")); // 48
+    }
+
+    void testXorWithEmptySet()
+    {
+        BitSet bs1("1010"), bs2("");
+        BitSet xored = bs1 ^ bs2;
+        QVERIFY(bs1 == xored);
+    }
+
+    void testAndWithEmptySet()
+    {
+        BitSet bs1("1010"), bs2("");
+        QVERIFY((bs1 & bs2) == BitSet("0000"));
+    }
+
+    void testPopEmpty()
+    {
+        BitSet bs;
+        QVERIFY_EXCEPTION_THROWN(bs.pop(), BitSet::OutOfRangeException);
+    }
+
+    void testPutOverBlockSize()
+    {
+        BitSet bs("11111111111111111111111111111111"); // 32
+        bs.put(false, 32);
+        QVERIFY(bs.length() == 33);
+        QVERIFY(bs == BitSet("111111111111111111111111111111110")); // 32 + 1
+    }
+
 };
 
 QTEST_APPLESS_MAIN(TestBitSet)
