@@ -294,12 +294,26 @@ private Q_SLOTS:
         QVERIFY_EXCEPTION_THROWN(bs.pop(), BitSet::OutOfRangeException);
     }
 
+    void testPopOverBlockSize()
+    {
+        BitSet bs("11111111111111111111111111111111"); // 32
+        bs.pop();
+        QVERIFY(bs == BitSet("1111111111111111111111111111111")); // 31
+    }
+
     void testPutOverBlockSize()
     {
         BitSet bs("11111111111111111111111111111111"); // 32
         bs.put(false, 32);
         QVERIFY(bs.length() == 33);
         QVERIFY(bs == BitSet("111111111111111111111111111111110")); // 32 + 1
+    }
+
+    void testToString()
+    {
+        BitSet bs("1010101");
+        bs.add(false);
+        QVERIFY(bs.toString() == "10101010");
     }
 
 };
