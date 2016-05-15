@@ -9,6 +9,8 @@ QT       -= gui
 TARGET = BitSet
 TEMPLATE = lib
 
+CONFIG += staticlib
+
 DEFINES += BITSET_LIBRARY
 
 SOURCES += bitset.cpp
