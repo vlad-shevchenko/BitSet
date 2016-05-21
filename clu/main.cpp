@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <../BitSet/bitset.cpp>
+#include <../BitSet/expression_evaluator.h>
 
 int main(int argc, char *argv[])
 {

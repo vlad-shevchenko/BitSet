@@ -1,12 +1,11 @@
 #include "lexer.h"
 
-Lexer::Lexer()
+Lexer::Lexer(QString expression) : expression(expression)
 {
 
 }
 
-Lexer::~Lexer()
+QList<symbols::AbstractSymbol> Lexer::tokenize()
 {
-
+    return QList();
 }
-

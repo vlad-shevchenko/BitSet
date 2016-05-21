@@ -1,12 +1,7 @@
 #include "expression_evaluator.h"
 
-ExpressionEvaluator::ExpressionEvaluator()
+BitSet ExpressionEvaluator::evaluate()
 {
-
+    QList tokens = Lexer(this->expression).tokenize();
+    return Parser(tokens);
 }
-
-ExpressionEvaluator::~ExpressionEvaluator()
-{
-
-}
-

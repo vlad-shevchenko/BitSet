@@ -1,12 +1,17 @@
-#include "expressionsymbol.h"
+#include "symbols.h"
 
-ExpressionSymbol::ExpressionSymbol()
+QString symbols::AbstractSymbol::getValue()
 {
-
+    return this->value;
 }
 
-ExpressionSymbol::~ExpressionSymbol()
+template <typename T>
+symbols::SymbolFactoryObject::SymbolFactoryObject(T)
 {
-
 }
 
+template <typename T>
+T symbols::SymbolFactoryObject::createSymbol(QString value)
+{
+    return new T(value);
+}

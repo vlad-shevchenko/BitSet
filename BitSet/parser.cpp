@@ -1,12 +1,6 @@
 #include "parser.h"
 
-Parser::Parser()
+BitSet Parser::parse()
 {
-
+    return BitSet();
 }
-
-Parser::~Parser()
-{
-
-}
-

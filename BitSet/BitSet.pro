@@ -13,10 +13,18 @@ CONFIG += staticlib
 
 DEFINES += BITSET_LIBRARY
 
-SOURCES += bitset.cpp
+SOURCES += bitset.cpp \
+    symbols.cpp \
+    lexer.cpp \
+    parser.cpp \
+    expression_evaluator.cpp
 
 HEADERS += bitset.h\
-        bitset_global.h
+    bitset_global.h \
+    symbols.h \
+    lexer.h \
+    parser.h \
+    expression_evaluator.h
 
 unix {
     target.path = /usr/lib
