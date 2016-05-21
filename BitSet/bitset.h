@@ -15,6 +15,7 @@ class BitSet
     int bitLength;
 
     void createOfList(QList<bool>& set);
+    void createOfString(QString representation);
 
 public:
 

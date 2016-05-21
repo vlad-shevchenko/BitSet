@@ -29,24 +29,7 @@ void BitSet::createOfList(QList<bool>& set)
     this->bitLength = bitLength;
 }
 
-BitSet::BitSet()
-{
-    this->set = QList<quint32>();
-    this->bitLength = 0;
-}
-
-BitSet::BitSet(QList<bool>& set)
-{
-    this->createOfList(set);
-}
-
-BitSet::BitSet(BitSet &that)
-{
-    this->set = QList<quint32>(that.set);
-    this->bitLength = that.bitLength;
-}
-
-BitSet::BitSet(QString representation)
+void BitSet::createOfString(QString representation)
 {
     QList<bool>* set = new QList<bool>();
     for (int i = 0; i < representation.length(); ++i) {
@@ -61,6 +44,32 @@ BitSet::BitSet(QString representation)
     }
 
     createOfList(*set);
+}
+
+BitSet::BitSet()
+{
+    this->set = QList<quint32>();
+    this->bitLength = 0;
+}
+
+BitSet::BitSet(QList<bool>& set)
+{
+    this->createOfList(set);
+}
+
+BitSet::BitSet(QFile &file) {
+    createOfString(QString(file.readAll()));
+}
+
+BitSet::BitSet(BitSet &that)
+{
+    this->set = QList<quint32>(that.set);
+    this->bitLength = that.bitLength;
+}
+
+BitSet::BitSet(QString representation)
+{
+    createOfString(representation);
 }
 
 int BitSet::length() const

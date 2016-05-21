@@ -316,6 +316,18 @@ private Q_SLOTS:
         QVERIFY(bs.toString() == "10101010");
     }
 
+    void testCreateFromFile()
+    {
+        QTemporaryFile file;
+        file.open();
+        file.write("1010");
+        file.seek(0);
+
+        BitSet bs(file);
+
+        QVERIFY(bs == BitSet("1010"));
+    }
+
 };
 
 QTEST_APPLESS_MAIN(TestBitSet)
