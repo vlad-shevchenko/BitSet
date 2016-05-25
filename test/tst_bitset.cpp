@@ -1,8 +1,16 @@
 #include <QString>
 #include <QtTest>
 
-#include <../BitSet/bitset.cpp>
-#include <iostream>
+//#include <../BitSet/symbols.h>
+//#include <../BitSet/bitset.h>
+//#include <../BitSet/lexer.h>
+//#include <../BitSet/parser.h>
+#include <bitset.h>
+#include <lexer.h>
+#include <parser.h>
+#include <symbols.h>
+
+using namespace symbols;
 
 class TestBitSet : public QObject
 {
@@ -328,8 +336,114 @@ private Q_SLOTS:
         QVERIFY(bs == BitSet("1010"));
     }
 
+    void testEmptyExpressionContainsNoTokens()
+    {
+        Lexer lexer("");
+        QVERIFY(lexer.tokenize().size() == 0);
+    }
+
+    void testValueExtraction()
+    {
+        QVERIFY(Lexer("101").tokenize()[0].value() == "101");
+    }
+
+    void testTwoSymbols()
+    {
+        QVERIFY(Lexer("1+").tokenize().size() == 2);
+    }
+
+    void testFilePath()
+    {
+        QVERIFY(Lexer("file:./abc:").tokenize()[0].value() == "./abc");
+    }
+
+    void testFilePathFollowedByBitset()
+    {
+        QList<symbols::Symbol> tokens = Lexer("file:path:101").tokenize();
+        QVERIFY(tokens.size() == 2);
+        QVERIFY(tokens[0].value() == "path");
+        QVERIFY(tokens[1].value() == "101");
+    }
+
+    void testAllSymbols()
+    {
+        QList<symbols::Symbol> tokens = Lexer("file:path: 101 ! & | ^ + <<1 >>2 ( )").tokenize();
+        QVERIFY(tokens.size() == 11);
+        QVERIFY(tokens[0].is(FILE_PATH));
+        QVERIFY(tokens[1].is(BITSET));
+        QVERIFY(tokens[2].is(NEGATE));
+        QVERIFY(tokens[3].is(AND));
+        QVERIFY(tokens[4].is(OR));
+        QVERIFY(tokens[5].is(XOR));
+        QVERIFY(tokens[6].is(CONCAT));
+        QVERIFY(tokens[7].is(LEFT_SHIFT));
+        QVERIFY(tokens[8].is(RIGHT_SHIFT));
+        QVERIFY(tokens[9].is(OPEN_PAR));
+        QVERIFY(tokens[10].is(CLOSE_PAR));
+    }
+
+    void testIgnoreWhitespaces()
+    {
+        QList<symbols::Symbol> tokens = Lexer("  1 + \t \t 0  ").tokenize();
+        QVERIFY(tokens.size() == 3);
+        QVERIFY(tokens[0].value() == "1");
+        QVERIFY(tokens[1].is(CONCAT));
+        QVERIFY(tokens[2].value() == "0");
+    }
+
+    void testInvalidExpression()
+    {
+        QVERIFY_EXCEPTION_THROWN(Lexer("1010999900").tokenize(), symbols::InvalidExpressionException);
+    }
+
+    void testEmptyFilePath()
+    {
+        QVERIFY_EXCEPTION_THROWN(Lexer("file::").tokenize(), symbols::InvalidExpressionException);
+    }
+
+    void testBitsetAfterShift()
+    {
+        QList<Symbol> tokens = Lexer("101 >> 2 101").tokenize();
+        QVERIFY(tokens[2].value() == "101");
+    }
+
+    void testTwoBitsetConcat()
+    {
+        QList<Symbol> tokens = Lexer("10 + 01").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("1001"));
+    }
+
+    void testTwoOperationsWithDifferentPriorities()
+    {
+        QList<Symbol> tokens = Lexer("10 + 01 ^ 11").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("1010"));
+    }
+
+    void testParentheses()
+    {
+        QList<Symbol> tokens = Lexer("(10 + 01) ^ 11").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("0101"));
+    }
+
+    void testParseLeftShift()
+    {
+        QList<Symbol> tokens = Lexer("101 << 2").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("00101"));
+    }
+
+    void testParseRightShift()
+    {
+        QList<Symbol> tokens = Lexer("101 >> 2").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("1"));
+    }
+
+    void testEndOfExpression()
+    {
+        QList<Symbol> tokens = Lexer("101 >> 2 101").tokenize();
+        QVERIFY_EXCEPTION_THROWN((new Parser(tokens))->parse(), InvalidExpressionException);
+    }
+
 };
 
 QTEST_APPLESS_MAIN(TestBitSet)
-
-#include "tst_testbitset.moc"
+#include "tst_bitset.moc"
