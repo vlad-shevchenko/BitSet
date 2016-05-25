@@ -2,8 +2,8 @@
 #include <QTextStream>
 #include <iostream>
 
-#include <../BitSet/bitset.cpp>
-#include <../BitSet/expression_evaluator.h>
+#include <bitset.h>
+#include <expression_evaluator.h>
 
 int main(int argc, char *argv[])
 {
