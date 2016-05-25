@@ -117,7 +117,7 @@ void BitSet::put(bool bit, int index)
     this->set[blockIndex] = block;
 }
 
-const bool BitSet::get(int index) const
+bool BitSet::get(int index) const
 {
     if (index < 0 || index >= this->bitLength) {
         throw BitSet::OutOfRangeException();
@@ -182,6 +182,14 @@ BitSet& BitSet::operator+=(const BitSet& that)
     return *this;
 }
 
+BitSet &BitSet::operator+=(BitSet *that)
+{
+    for (int i = 0; i < that->length(); ++i) {
+        this->add((*that)[i]);
+    }
+    return *this;
+}
+
 BitSet& BitSet::operator+=(const bool bit)
 {
     this->add(bit);
@@ -215,7 +223,7 @@ BitSet BitSet::operator|(const BitSet& that)
     return bs;
 }
 
-BitSet& BitSet::operator|=(const BitSet& that)
+BitSet BitSet::operator|=(const BitSet& that)
 {
     int maxLength = std::max(this->length(), that.length());
     for (int i = 0; i < maxLength; ++i) {
@@ -244,7 +252,7 @@ BitSet BitSet::operator&(const BitSet& that)
     return bs;
 }
 
-BitSet& BitSet::operator&=(const BitSet& that)
+BitSet BitSet::operator&=(const BitSet& that)
 {
     int maxLength = std::max(this->length(), that.length());
     for (int i = 0; i < maxLength; ++i) {
@@ -273,7 +281,7 @@ BitSet BitSet::operator^(const BitSet& that)
     return bs;
 }
 
-BitSet& BitSet::operator^=(const BitSet& that)
+BitSet BitSet::operator^=(const BitSet& that)
 {
     int maxLength = std::max(this->length(), that.length());
     for (int i = 0; i < maxLength; ++i) {
@@ -300,7 +308,7 @@ BitSet BitSet::operator<<(const int shift)
     return result;
 }
 
-BitSet& BitSet::operator<<=(const int shift)
+BitSet BitSet::operator<<=(const int shift)
 {
     for (int i = 0; i < shift; ++i) {
        this->add(false);
@@ -323,7 +331,7 @@ BitSet BitSet::operator>>(const int shift)
     return result;
 }
 
-BitSet& BitSet::operator>>=(const int shift)
+BitSet BitSet::operator>>=(const int shift)
 {
     for (int i = shift; i < this->length(); ++i) {
         this->put((*this)[i], i - shift);
@@ -352,14 +360,14 @@ bool BitSet::operator!=(const BitSet& that)
     return !(this == &that);
 }
 
-BitSet& BitSet::operator=(BitSet that)
+BitSet BitSet::operator=(BitSet that)
 {
     this->set = that.set;
     this->bitLength = that.bitLength;
     return *this;
 }
 
-const bool BitSet::operator[](int i) const
+bool BitSet::operator[](int i) const
 {
     return this->get(i);
 }

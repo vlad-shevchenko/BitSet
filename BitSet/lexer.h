@@ -6,16 +6,17 @@
 #include <QList>
 #include <QString>
 #include <QMap>
+#include <QRegExp>
 
 class Lexer
 {
 private:
     QString expression;
-    QMap<symbols::AbstractSymbol, symbols::SymbolFactoryObject> symbolsMap;
+    QMap<QString, symbols::symbol> tokenizationMap;
 public:
     Lexer(QString);
 
-    QList<symbols::AbstractSymbol> tokenize();
+    QList<symbols::Symbol> tokenize();
 
 };
 

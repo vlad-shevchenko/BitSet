@@ -1,17 +1,26 @@
 #include "symbols.h"
 
-QString symbols::AbstractSymbol::getValue()
-{
-    return this->value;
-}
+using namespace symbols;
 
-template <typename T>
-symbols::SymbolFactoryObject::SymbolFactoryObject(T)
-{
-}
+//QString AbstractSymbol::getValue()
+//{
+//    return this->value;
+//}
 
-template <typename T>
-T symbols::SymbolFactoryObject::createSymbol(QString value)
-{
-    return new T(value);
-}
+//template<class T>
+//SymbolFactoryObject<T>::SymbolFactoryObject()
+//{
+//}
+
+//template<class T>
+//SymbolFactoryObject<T>::SymbolFactoryObject(T)
+//{
+//}
+
+//template<class T>
+//T SymbolFactoryObject<T>::createSymbol(QString value)
+//{
+//    return T(value);
+//}
+
+////FILE_PATH::PATTERN = new QRegExp("^file\\:([\w\d\\\\\\\/]+)\s*");

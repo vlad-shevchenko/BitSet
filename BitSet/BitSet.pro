@@ -9,7 +9,7 @@ QT       -= gui
 TARGET = BitSet
 TEMPLATE = lib
 
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
 DEFINES += BITSET_LIBRARY
 

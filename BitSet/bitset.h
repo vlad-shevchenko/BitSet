@@ -63,13 +63,14 @@ public:
      */
     void put(bool bit, int index);
 
-    const bool get(int index) const;
+    bool get(int index) const;
 
     bool pop();
 
     BitSet operator+(const BitSet& that);
     BitSet operator+(const bool bit);
     BitSet& operator+=(const BitSet& that);
+    BitSet& operator+=(BitSet* that);
     BitSet& operator+=(const bool bit);
 
     BitSet operator!();
@@ -85,7 +86,7 @@ public:
      * @param that
      * @return modified BitSet
      */
-    BitSet& operator|=(const BitSet& that);
+    BitSet operator|=(const BitSet &that);
 
     /**
      * @brief operator &= Performs operation bit-by-bit from the beggining. If lengths of BitSets are different, all unsufficient bits considered false
@@ -98,7 +99,7 @@ public:
      * @param that
      * @return modified BitSet
      */
-    BitSet& operator&=(const BitSet& that);
+    BitSet operator&=(const BitSet &that);
 
     /**
      * @brief operator ^= Performs operation bit-by-bit from the beggining. If lengths of BitSets are different, all unsufficient bits considered false
@@ -111,20 +112,20 @@ public:
      * @param that
      * @return modified BitSet
      */
-    BitSet& operator^=(const BitSet& that);
+    BitSet operator^=(const BitSet& that);
 
     BitSet operator<<(const int shift);
-    BitSet& operator<<=(const int shift);
+    BitSet operator<<=(const int shift);
 
     BitSet operator>>(const int shift);
-    BitSet& operator>>=(const int shift);
+    BitSet operator>>=(const int shift);
 
     bool operator==(const BitSet& that);
     bool operator!=(const BitSet& that);
 
-    BitSet& operator=(BitSet that);
+    BitSet operator=(BitSet that);
 
-    const bool operator[](int i) const;
+    bool operator[](int i) const;
 
     int length() const;
 
