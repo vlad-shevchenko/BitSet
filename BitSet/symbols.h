@@ -77,6 +77,12 @@ namespace symbols {
         NoFileException(const QString& message) : BaseException(message) { }
     };
 
+    class CannotReadFileException : public BaseException {
+    public:
+        CannotReadFileException() : BaseException("File cannot be read or content is not a BitSet") { }
+        CannotReadFileException(const QString& message) : BaseException(message) { }
+    };
+
     class BitSetExpectedException : public BaseException {
     public:
         BitSetExpectedException() : BaseException("Value after |, & , ^ or + operations must be a BitSet") { }

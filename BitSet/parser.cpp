@@ -101,7 +101,18 @@ BitSet Parser::parseTerm()
     BitSet result;
     if (cur.is(FILE_PATH)) {
         // TODO vlad: open and read file
-        result = BitSet("");
+        QFile file(cur.value());
+        if (!file.exists()) {
+            throw NoFileException("File doesn't exist: " + cur.value());
+        } else {
+            try {
+                file.open(QIODevice::ReadOnly | QIODevice::Text);
+                result = BitSet(file);
+            } catch (std::exception e) {
+                throw CannotReadFileException();
+            }
+        }
+        goNext();
     } else if (cur.is(BITSET)) {
         result = BitSet(cur.value());
         goNext();

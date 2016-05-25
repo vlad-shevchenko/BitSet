@@ -354,12 +354,12 @@ private Q_SLOTS:
 
     void testFilePath()
     {
-        QVERIFY(Lexer("file:./abc:").tokenize()[0].value() == "./abc");
+        QVERIFY(Lexer("file@./abc@").tokenize()[0].value() == "./abc");
     }
 
     void testFilePathFollowedByBitset()
     {
-        QList<symbols::Symbol> tokens = Lexer("file:path:101").tokenize();
+        QList<symbols::Symbol> tokens = Lexer("file@path@101").tokenize();
         QVERIFY(tokens.size() == 2);
         QVERIFY(tokens[0].value() == "path");
         QVERIFY(tokens[1].value() == "101");
@@ -367,7 +367,7 @@ private Q_SLOTS:
 
     void testAllSymbols()
     {
-        QList<symbols::Symbol> tokens = Lexer("file:path: 101 ! & | ^ + <<1 >>2 ( )").tokenize();
+        QList<symbols::Symbol> tokens = Lexer("file@path@ 101 ! & | ^ + <<1 >>2 ( )").tokenize();
         QVERIFY(tokens.size() == 11);
         QVERIFY(tokens[0].is(FILE_PATH));
         QVERIFY(tokens[1].is(BITSET));
@@ -398,7 +398,7 @@ private Q_SLOTS:
 
     void testEmptyFilePath()
     {
-        QVERIFY_EXCEPTION_THROWN(Lexer("file::").tokenize(), symbols::InvalidExpressionException);
+        QVERIFY_EXCEPTION_THROWN(Lexer("file@@").tokenize(), symbols::InvalidExpressionException);
     }
 
     void testBitsetAfterShift()
@@ -441,6 +441,19 @@ private Q_SLOTS:
     {
         QList<Symbol> tokens = Lexer("101 >> 2 101").tokenize();
         QVERIFY_EXCEPTION_THROWN((new Parser(tokens))->parse(), InvalidExpressionException);
+    }
+
+    void testParseFromFile()
+    {
+        QTemporaryFile file;
+        file.open();
+        file.write("10");
+        file.close();
+
+        QString path = QDir::tempPath();
+        QString name = file.fileName();
+        QList<Symbol> tokens = Lexer("01 + file@" + file.fileName() + "@").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("0110"));
     }
 
 };

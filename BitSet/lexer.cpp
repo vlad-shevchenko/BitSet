@@ -9,7 +9,7 @@ using namespace symbols;
 
 Lexer::Lexer(QString expression) : expression(expression)
 {
-    this->tokenizationMap.insert("^file:([^:\\s]+):",       FILE_PATH);
+    this->tokenizationMap.insert("^file@([^@\\s]+)@",       FILE_PATH);
     this->tokenizationMap.insert("^([10]+)",                BITSET);
     this->tokenizationMap.insert("^\\!",                    NEGATE);
     this->tokenizationMap.insert("^\\&",                    AND);
