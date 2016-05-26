@@ -40,7 +40,7 @@ Some examples of valid expressions and their results:
 * `101 + 01` is `10101`.
 * `110 + 101 ^ 110 & 010` is `110111`. `&` has higher priority than `^`, and `^` is higher than `+`.
 * `10001 | 1011 ^ file@operator.txt@` `operator.txt` is a text file in the working directory which contains string `101`. So the expression is equivalent to `00001 | 1011 ^ 100` and is equal to `10001` since the shorter operand is filled by `0`\`s on the right side.
-* `10    + 01|1&    1001`. Whitespaces are ok.
+* `10&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;01|1&&nbsp;&nbsp;&nbsp;&nbsp;1001`. Whitespaces are ok.
 
 Some incorrect expressions:
 
