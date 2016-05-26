@@ -407,6 +407,11 @@ private Q_SLOTS:
         QVERIFY(tokens[2].value() == "101");
     }
 
+    void testFilepathWithWhitespaces()
+    {
+        QVERIFY_EXCEPTION_THROWN(Lexer("file@new folder/file.txt@").tokenize(), InvalidExpressionException);
+    }
+
     void testTwoBitsetConcat()
     {
         QList<Symbol> tokens = Lexer("10 + 01").tokenize();
