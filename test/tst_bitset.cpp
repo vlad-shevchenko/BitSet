@@ -456,6 +456,30 @@ private Q_SLOTS:
         QVERIFY((new Parser(tokens))->parse() == BitSet("0110"));
     }
 
+    void testParseSingleBitset()
+    {
+        QList<Symbol> tokens = Lexer("101").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("101"));
+    }
+
+    void testParseNegationofSingleBitset()
+    {
+        QList<Symbol> tokens = Lexer("!10").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("01"));
+    }
+
+    void testNegateWithTilda()
+    {
+        QList<Symbol> tokens = Lexer("~10").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("01"));
+    }
+
+    void testParseThreeOperations()
+    {
+        QList<Symbol> tokens = Lexer("101 + 101 ^ 110 & 010").tokenize();
+        QVERIFY((new Parser(tokens))->parse() == BitSet("101111"));
+    }
+
 };
 
 QTEST_APPLESS_MAIN(TestBitSet)
