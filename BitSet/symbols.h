@@ -6,39 +6,6 @@
 #include <exception>
 
 namespace symbols {
-//    class AbstractSymbol
-//    {
-//    protected:
-//        QString value;
-//    public:
-//        AbstractSymbol() : value("") {}
-//        AbstractSymbol(QString value) : value(value) { }
-
-//        QString getValue();
-//    };
-
-//    template<class T>
-//    class SymbolFactoryObject
-//    {
-//    public:
-//        SymbolFactoryObject();
-//        SymbolFactoryObject(T);
-//        T createSymbol(QString);
-//    };
-
-
-//    class FILE_PATH     : public AbstractSymbol {};
-//    class BITSET        : public AbstractSymbol {};
-//    class NUMBER    	: public AbstractSymbol {};
-//    class NEGATE    	: public AbstractSymbol {};
-//    class AND       	: public AbstractSymbol {};
-//    class OR        	: public AbstractSymbol {};
-//    class XOR           : public AbstractSymbol {};
-//    class CONCAT    	: public AbstractSymbol {};
-//    class LEFT_SHIFT    : public AbstractSymbol {};
-//    class RIGHT_SHIFT   : public AbstractSymbol {};
-//    class OPEN_PAR  	: public AbstractSymbol {};
-//    class CLOSE_PAR 	: public AbstractSymbol {};
 
     enum symbol {FILE_PATH, BITSET, NEGATE, AND, OR, XOR, CONCAT, LEFT_SHIFT, RIGHT_SHIFT, OPEN_PAR, CLOSE_PAR, EPSILON};
     class Symbol {

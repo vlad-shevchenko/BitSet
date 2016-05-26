@@ -14,7 +14,6 @@ CONFIG += staticlib c++11
 DEFINES += BITSET_LIBRARY
 
 SOURCES += bitset.cpp \
-    symbols.cpp \
     lexer.cpp \
     parser.cpp \
     expression_evaluator.cpp
