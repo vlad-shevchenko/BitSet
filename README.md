@@ -13,7 +13,9 @@ Provides classes for operations on individual bitsets as well as evaluating bits
 `bitset` command-line tool
 ------------------------------------
 
-Provides command-line interface for parsing bitset expressions. Expects a single argument - expression to parse. Returns string representation of resulting bitset if expression is correct and parsing error message otherwise.
+Provides command-line interface for parsing bitset expressions. Expects a single argument - expression to parse. Returns string representation of resulting bitset if expression is correct and parsing error message otherwise. Runs like following:
+
+`bitset.exe 110 + 101 ^ 110 & 010`
 
 Expressions
 -----------------
@@ -23,7 +25,8 @@ Expression evaluator supports following symbols:
 * Bitset as is -- a string of `0`\`s and `1`\`s
 * Bitset read from file -- `file@<filepath>@` will read a bitset from file at `<filepath>`. File must exist, be accessible, be text and contain nothing except `0` and `1`. Error is thrown otherwise.
 * `(` and `)` -- parenthesis for changing evaluation order.
-* `!`, `&`, `|`, `^` -- bitwise negation, AND, OR, XOR. Ordered from high-priority to low-priority. Both left and right operand must be bitsets.
+* `!` or `~` -- bitwise negation. Both mean exactly the same. `!` might be a special character in your terminal, so `~` is more preferred.
+* `&`, `|`, `^` -- bitwise AND, OR, XOR. Ordered from high-priority to low-priority. Both left and right operands must be bitsets.
 * `>>` and `<<` -- right and left shift. Left operand must be bitset and right one must be a number.
 * `+` -- concatenation. Both left and right operand must be bitsets.
 

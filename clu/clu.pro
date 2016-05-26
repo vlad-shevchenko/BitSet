@@ -8,7 +8,7 @@ QT       += core
 
 QT       -= gui
 
-TARGET = clu
+TARGET = bitset
 CONFIG   += console
 CONFIG   -= app_bundle
 
