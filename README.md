@@ -33,13 +33,13 @@ Expression evaluator supports following symbols:
 > * The higher operator is in the list the higher priority it has.
 > * Be aware that string representation of bitsets are written from least-significant-bits on the left to MSB on the right. So `0100` is `2`, not `4`.
 > * If bitwise operation is performed on bitsets of different length, the shorter one gets filled with `0`\`s at the end to match the length of the longer one.
-> * All operands and operators may be separated by one number of whitespace characters. However, no whitespaces allowed inside bitset, number, file operator (including file path), shift operators.
+> * All operands and operators may be separated by any number of whitespace characters. However, no whitespaces allowed inside bitset, number, file operator (including file path), shift operators.
 
 Some examples of valid expressions and their results:
 
 * `101 + 01` is `10101`.
 * `110 + 101 ^ 110 & 010` is `110111`. `&` has higher priority than `^`, and `^` is higher than `+`.
-* `10001 | 1011 ^ file@operator.txt@` `operator.txt` is a text file in the working directory which contains string `101`. So the expression is equivalent to `00001 | 1011 ^ 100` and is equal to `10001` since the sorted operand is filled by `0`\`s on the right side.
+* `10001 | 1011 ^ file@operator.txt@` `operator.txt` is a text file in the working directory which contains string `101`. So the expression is equivalent to `00001 | 1011 ^ 100` and is equal to `10001` since the shorter operand is filled by `0`\`s on the right side.
 * `10    + 01|1&    1001`. Whitespaces are ok.
 
 Some incorrect expressions:
