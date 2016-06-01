@@ -45,8 +45,6 @@ public:
      */
     BitSet(QFile& file);
 
-    BitSet(BitSet& that);
-
     /**
      * @brief add Appends a bit to the end of a bitset
      * @param bit
@@ -122,8 +120,6 @@ public:
 
     bool operator==(const BitSet& that);
     bool operator!=(const BitSet& that);
-
-    BitSet operator=(BitSet that);
 
     bool operator[](int i) const;
 

@@ -61,12 +61,6 @@ BitSet::BitSet(QFile &file) {
     createOfString(QString(file.readAll()));
 }
 
-BitSet::BitSet(BitSet &that)
-{
-    this->set = QList<quint32>(that.set);
-    this->bitLength = that.bitLength;
-}
-
 BitSet::BitSet(QString representation)
 {
     createOfString(representation);
@@ -358,13 +352,6 @@ bool BitSet::operator==(const BitSet& that)
 bool BitSet::operator!=(const BitSet& that)
 {
     return !(this == &that);
-}
-
-BitSet BitSet::operator=(BitSet that)
-{
-    this->set = that.set;
-    this->bitLength = that.bitLength;
-    return *this;
 }
 
 bool BitSet::operator[](int i) const

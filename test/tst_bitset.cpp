@@ -264,7 +264,7 @@ private Q_SLOTS:
         BitSet bs("11111111111111111111111111111111"); // 32
         bs <<= 16;
         QVERIFY(bs.length() == 48);
-        QVERIFY(bs == BitSet("000000000000000011111111111111111111111111111111")); // 32 + 16
+        QVERIFY(bs == BitSet("000000000000000011111111111111111111111111111111")); // 16 + 32
     }
 
     void testRightShiftOverBlockSize()
@@ -335,6 +335,38 @@ private Q_SLOTS:
 
         QVERIFY(bs == BitSet("1010"));
     }
+
+    void testAssignment()
+    {
+        BitSet bs1("101"), bs2;
+        bs2 = bs1;
+        QVERIFY(bs2.length() == 3);
+    }
+
+    void testBitsetIndependence()
+    {
+        BitSet bs1("101"), bs2;
+        bs2 = bs1;
+        bs1.add(true);
+        QVERIFY(bs2.length() == 3);
+    }
+
+    void testImplicitCopyConstructor()
+    {
+        BitSet bs1("101");
+        BitSet bs2(bs1);
+        QVERIFY(bs2.length() == 3);
+    }
+
+    void testImplicitCopyConstructorIndependence()
+    {
+        BitSet bs1("101");
+        BitSet bs2(bs1);
+        bs1.add(true);
+        QVERIFY(bs2.length() == 3);
+    }
+
+
 
     void testEmptyExpressionContainsNoTokens()
     {
